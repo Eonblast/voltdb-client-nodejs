@@ -1,5 +1,6 @@
 // # define(`DEBUG', true)
 
+
 /* This file is part of VoltDB.
  * Copyright (C) 2008-2012 VoltDB Inc.
  *
@@ -275,14 +276,10 @@ function ruint16(buffer, endian, offset)
 
 
 
-	if (endian == 'big') {
+
 		val = buffer[offset] << 8;
 		val |=  buffer[offset+1];
-	} else {
-		val = buffer[offset];
-		val |= buffer[offset+1] << 8;
-	}
-
+	
 	return (val);
 }
 
@@ -318,18 +315,12 @@ function ruint32(buffer, endian, offset)
 
 
 
-	if (endian == 'big') {
+
 		val = buffer[offset+1] << 16;
 		val |= buffer[offset+2] << 8;
 		val |= buffer[offset+3];
 		val = fixu32(buffer[offset], val);
-	} else {
-		val = buffer[offset+2] << 16;
-		val |= buffer[offset+1] << 8;
-		val |= buffer[offset];
-		val = fixu32(buffer[offset+3], val);
-	}
-
+	
 	return (val);
 }
 
@@ -361,14 +352,10 @@ function ruint64(buffer, endian, offset)
 
 
 
-	if (endian == 'big') {
+
 		val[0] = ruint32(buffer, endian, offset);
 		val[1] = ruint32(buffer, endian, offset+4);
-	} else {
-		val[0] = ruint32(buffer, endian, offset+4);
-		val[1] = ruint32(buffer, endian, offset);
-	}
-
+	
 	return (val);
 }
 
@@ -601,18 +588,12 @@ function rfloat(buffer, endian, offset)
 
 
 	/* Normalize the bytes to be in endian order */
-	if (endian == 'big') {
+
 		bytes[0] = buffer[offset];
 		bytes[1] = buffer[offset+1];
 		bytes[2] = buffer[offset+2];
 		bytes[3] = buffer[offset+3];
-	} else {
-		bytes[3] = buffer[offset];
-		bytes[2] = buffer[offset+1];
-		bytes[1] = buffer[offset+2];
-		bytes[0] = buffer[offset+3];
-	}
-
+	
 	sign = bytes[0] & 0x80;
 	exponent = (bytes[0] & 0x7f) << 1;
 	exponent |= (bytes[1] & 0x80) >>> 7;
@@ -700,7 +681,7 @@ function rdouble(buffer, endian, offset)
 
 
 	/* Normalize the bytes to be in endian order */
-	if (endian == 'big') {
+
 		bytes[0] = buffer[offset];
 		bytes[1] = buffer[offset+1];
 		bytes[2] = buffer[offset+2];
@@ -709,17 +690,7 @@ function rdouble(buffer, endian, offset)
 		bytes[5] = buffer[offset+5];
 		bytes[6] = buffer[offset+6];
 		bytes[7] = buffer[offset+7];
-	} else {
-		bytes[7] = buffer[offset];
-		bytes[6] = buffer[offset+1];
-		bytes[5] = buffer[offset+2];
-		bytes[4] = buffer[offset+3];
-		bytes[3] = buffer[offset+4];
-		bytes[2] = buffer[offset+5];
-		bytes[1] = buffer[offset+6];
-		bytes[0] = buffer[offset+7];
-	}
-
+	
 	/*
 	 * We can construct the exponent and mantissa the same way as we did in
 	 * the case of a float, just increase the range of the exponent.
@@ -867,14 +838,10 @@ function wuint16(value, endian, buffer, offset)
 
 
 	val = prepuint(value, 0xffff);
-	if (endian == 'big') {
+
 		buffer[offset] = (val & 0xff00) >>> 8;
 		buffer[offset+1] = val & 0x00ff;
-	} else {
-		buffer[offset+1] = (val & 0xff00) >>> 8;
-		buffer[offset] = val & 0x00ff;
 	}
-}
 
 /*
  * The 32-bit version is going to have to be a little different unfortunately.
@@ -902,19 +869,12 @@ function wuint32(value, endian, buffer, offset)
 
 
 	val = prepuint(value, 0xffffffff);
-	if (endian == 'big') {
+
 		buffer[offset] = (val - (val & 0x00ffffff)) / Math.pow(2, 24);
 		buffer[offset+1] = (val >>> 16) & 0xff;
 		buffer[offset+2] = (val >>> 8) & 0xff;
 		buffer[offset+3] = val & 0xff;
-	} else {
-		buffer[offset+3] = (val - (val & 0x00ffffff)) /
-		    Math.pow(2, 24);
-		buffer[offset+2] = (val >>> 16) & 0xff;
-		buffer[offset+1] = (val >>> 8) & 0xff;
-		buffer[offset] = val & 0xff;
 	}
-}
 
 /*
  * Unlike the other versions, we expect the value to be in the form of two
@@ -940,14 +900,10 @@ function wuint64(value, endian, buffer, offset)
 	prepuint(value[0], 0xffffffff);
 	prepuint(value[1], 0xffffffff);
 
-	if (endian == 'big') {
+
 		wuint32(value[0], endian, buffer, offset);
 		wuint32(value[1], endian, buffer, offset+3);
-	} else {
-		wuint32(value[0], endian, buffer, offset+3);
-		wuint32(value[1], endian, buffer, offset);
 	}
-}
 
 /*
  * We now move onto our friends in the signed number category. Unlike unsigned
@@ -1123,14 +1079,10 @@ function wsint64(value, endian, buffer, offset)
 		vals[1] = value[1];
 	}
 
-	if (endian == 'big') {
+
 		wuint32(vals[0], endian, buffer, offset);
 		wuint32(vals[1], endian, buffer, offset+4);
-	} else {
-		wuint32(vals[0], endian, buffer, offset+4);
-		wuint32(vals[1], endian, buffer, offset);
 	}
-}
 
 /*
  * Now we are moving onto the weirder of these, the float and double. For this
@@ -1287,18 +1239,12 @@ function wfloat(value, endian, buffer, offset)
 	bytes[2] = (mantissa & 0x00ff00) >>> 8;
 	bytes[3] = mantissa & 0x0000ff;
 
-	if (endian == 'big') {
+
 		buffer[offset] = bytes[0];
 		buffer[offset+1] = bytes[1];
 		buffer[offset+2] = bytes[2];
 		buffer[offset+3] = bytes[3];
-	} else {
-		buffer[offset] = bytes[3];
-		buffer[offset+1] = bytes[2];
-		buffer[offset+2] = bytes[1];
-		buffer[offset+3] = bytes[0];
 	}
-}
 
 /*
  * Now we move onto doubles. Doubles are similar to floats in pretty much all
@@ -1459,7 +1405,7 @@ function wdouble(value, endian, buffer, offset)
 	bytes[1] = (exponent & 0x00f) << 4 | mantissa >>> 24;
 	bytes[0] = (sign << 7) | (exponent & 0x7f0) >>> 4;
 
-	if (endian == 'big') {
+
 		buffer[offset] = bytes[0];
 		buffer[offset+1] = bytes[1];
 		buffer[offset+2] = bytes[2];
@@ -1468,17 +1414,7 @@ function wdouble(value, endian, buffer, offset)
 		buffer[offset+5] = bytes[5];
 		buffer[offset+6] = bytes[6];
 		buffer[offset+7] = bytes[7];
-	} else {
-		buffer[offset+7] = bytes[0];
-		buffer[offset+6] = bytes[1];
-		buffer[offset+5] = bytes[2];
-		buffer[offset+4] = bytes[3];
-		buffer[offset+3] = bytes[4];
-		buffer[offset+2] = bytes[5];
-		buffer[offset+1] = bytes[6];
-		buffer[offset] = bytes[7];
 	}
-}
 
 var mod_ctio = {};
 mod_ctio.ruint8 = ruint8;
