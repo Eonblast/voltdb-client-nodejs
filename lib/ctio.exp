@@ -1,0 +1,22 @@
+exports['ruint8'] = ruint8;
+exports['ruint16'] = ruint16;
+exports['ruint32'] = ruint32;
+exports['ruint64'] = ruint64;
+exports['wuint8'] = wuint8;
+exports['wuint16'] = wuint16;
+exports['wuint32'] = wuint32;
+exports['wuint64'] = wuint64;
+
+exports['rsint8'] = rsint8;
+exports['rsint16'] = rsint16;
+exports['rsint32'] = rsint32;
+exports['rsint64'] = rsint64;
+exports['wsint8'] = wsint8;
+exports['wsint16'] = wsint16;
+exports['wsint32'] = wsint32;
+exports['wsint64'] = wsint64;
+
+exports['rfloat'] = rfloat;
+exports['rdouble'] = rdouble;
+exports['wfloat'] = wfloat;
+exports['wdouble'] = wdouble;
