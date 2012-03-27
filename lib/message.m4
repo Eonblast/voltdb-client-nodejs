@@ -1411,7 +1411,8 @@ ifdef(`BIGENDIAN',`
  *
  * One might propose to use Number.toString(2). Of course, this is not really
  * that good, because the ECMAScript 262 v3 Standard says the following Section
- * 15.7.4.2-Number.prototype['toString'] (radix):
+ * 15.7.4.2-Number.prototype['toString'] = 
+Number.prototype.toString  (radix):
  *
  * If radix is an integer from 2 to 36, but not 10, the result is a string, the
  * choice of which is implementation-dependent.
@@ -2178,6 +2179,9 @@ ifdef(`DEBUG',
  *			want to read from or write to.
  *
  */
+/**
+ * @constructor 
+ */
 function CTypeParser(conf) {
 ifdef(`DEBUG',
   if(!conf)
@@ -2206,7 +2210,8 @@ ifdef(`DEBUG',
  *			want to read from or write to.
  *
  */
-CTypeParser.prototype['setEndian'] = function(endian) {
+CTypeParser.prototype['setEndian'] = 
+CTypeParser.prototype.setEndian  = function(endian) {
 ifdef(`DEBUG',
   if(endian != 'big' || endian != 'little')
     throw (new Error('invalid endian type, must be big or ' + ' little'));
@@ -2217,7 +2222,8 @@ ifdef(`DEBUG',
 /*
  * Returns the current value of the endian value for the parser.
  */
-CTypeParser.prototype['getEndian'] = function() {
+CTypeParser.prototype['getEndian'] = 
+CTypeParser.prototype.getEndian  = function() {
   return (this['endian']);
 };
 /*
@@ -2229,7 +2235,8 @@ CTypeParser.prototype['getEndian'] = function() {
  *	value		Either a string that is a type/array name or an object
  *			that describes a struct.
  */
-CTypeParser.prototype['typedef'] = function(name, value) {
+CTypeParser.prototype['typedef'] = 
+CTypeParser.prototype.typedef  = function(name, value) {
   var type;
 
 ifdef(`DEBUG',
@@ -2286,7 +2293,8 @@ ifdef(`DEBUG',
  * Include all of the typedefs, but none of the built in types. This should be
  * treated as read-only.
  */
-CTypeParser.prototype['lstypes'] = function() {
+CTypeParser.prototype['lstypes'] = 
+CTypeParser.prototype.lstypes  = function() {
   var key;
   var ret = {};
 
@@ -2333,7 +2341,8 @@ ifdef(`DEBUG',
  * If it resolves to a struct, we just pass it off to read struct. If not, we
  * can just pass it off to read entry.
  */
-CTypeParser.prototype['resolveTypedef'] = function(type, dispatch, buffer, offset, value) {
+CTypeParser.prototype['resolveTypedef'] = 
+CTypeParser.prototype.resolveTypedef  = function(type, dispatch, buffer, offset, value) {
   var pt;
   console.log(type);
   ASSERT.ok( type in this['types']);
@@ -2359,7 +2368,8 @@ CTypeParser.prototype['resolveTypedef'] = function(type, dispatch, buffer, offse
 /*
  * [private] Try and read in the specific entry.
  */
-CTypeParser.prototype['readEntry'] = function(type, buffer, offset) {
+CTypeParser.prototype['readEntry'] = 
+CTypeParser.prototype.readEntry  = function(type, buffer, offset) {
   var parse, len;
 
   /*
@@ -2399,7 +2409,8 @@ ifdef(`DEBUG',
 /*
  * [private] Read an array of data
  */
-CTypeParser.prototype['readArray'] = function(type, length, buffer, offset) {
+CTypeParser.prototype['readArray'] = 
+CTypeParser.prototype.readArray  = function(type, length, buffer, offset) {
   var ii, ent, pt;
   var baseOffset = offset;
   var ret = new Array(length);
@@ -2419,7 +2430,8 @@ CTypeParser.prototype['readArray'] = function(type, length, buffer, offset) {
 /*
  * [private] Read a single struct in.
  */
-CTypeParser.prototype['readStruct'] = function(def, buffer, offset) {
+CTypeParser.prototype['readStruct'] = 
+CTypeParser.prototype.readStruct  = function(def, buffer, offset) {
   var parse, ii, type, entry, key;
   var baseOffset = offset;
   var ret = {};
@@ -2457,7 +2469,8 @@ CTypeParser.prototype['readStruct'] = function(def, buffer, offset) {
  * Returns an object where each key corresponds to an entry in def and the value
  * is the read value.
  */
-CTypeParser.prototype['readData'] = function(def, buffer, offset) {
+CTypeParser.prototype['readData'] = 
+CTypeParser.prototype.readData  = function(def, buffer, offset) {
   /* Sanity check for arguments */
 ifdef(`DEBUG',
   if(def === undefined)
@@ -2482,7 +2495,8 @@ ifdef(`DEBUG',
 /*
  * [private] Write out an array of data
  */
-CTypeParser.prototype['writeArray'] = function(value, type, length, buffer, offset) {
+CTypeParser.prototype['writeArray'] = 
+CTypeParser.prototype.writeArray  = function(value, type, length, buffer, offset) {
   var ii, pt;
   var baseOffset = offset;
 ifdef(`DEBUG',
@@ -2503,7 +2517,8 @@ ifdef(`DEBUG',
 /*
  * [private] Write the specific entry
  */
-CTypeParser.prototype['writeEntry'] = function(value, type, buffer, offset) {
+CTypeParser.prototype['writeEntry'] = 
+CTypeParser.prototype.writeEntry  = function(value, type, buffer, offset) {
   var len, ret;
 
   if(type['len'] !== undefined) {
@@ -2529,7 +2544,8 @@ ifdef(`DEBUG',
 /*
  * [private] Write a single struct out.
  */
-CTypeParser.prototype['writeStruct'] = function(def, buffer, offset) {
+CTypeParser.prototype['writeStruct'] = 
+CTypeParser.prototype.writeStruct  = function(def, buffer, offset) {
   var ii, entry, type, key;
   var baseOffset = offset;
   var vals = {};
@@ -2558,7 +2574,8 @@ CTypeParser.prototype['writeStruct'] = function(def, buffer, offset) {
  *
  *	offset		The offset in the buffer to write to
  */
-CTypeParser.prototype['write'] = function(def, buffer, offset) {
+CTypeParser.prototype['write'] = 
+CTypeParser.prototype.write  = function(def, buffer, offset) {
 ifdef(`DEBUG',
   if(def === undefined)
     throw (new Error('missing definition for what we should be' + 'parsing'));
@@ -2679,50 +2696,64 @@ ctype.deftypes = deftypes;
 
 var endian = 'big';
 
+/**
+ * @constructor 
+ */
 function Parser(buffer) {
   this['buffer'] = buffer || [];
   this['position'] = 0;
 }
 
-Parser.prototype['readBinary'] = function(length) {
+Parser.prototype['readBinary'] = 
+Parser.prototype.readBinary  = function(length) {
   return this['buffer'].slice(this['position'], this['position'] += length);
 };
-Parser.prototype['writeBinary'] = function(buffer) {
+Parser.prototype['writeBinary'] = 
+Parser.prototype.writeBinary  = function(buffer) {
   for(var i = 0, l = buffer.length, pos = this['position']; i < l; i++) {
     this['buffer'][pos + i] = buffer[i];
   }
   this['position'] += l;
 };
 
-Parser.prototype['readByte'] = function() {
+Parser.prototype['readByte'] = 
+Parser.prototype.readByte  = function() {
   return ctype.rsint8(this['buffer'], endian, this['position']++);
 };
-Parser.prototype['writeByte'] = function(value) {
+Parser.prototype['writeByte'] = 
+Parser.prototype.writeByte  = function(value) {
   ctype.wsint8(value, endian, this['buffer'], this['position']++);
 };
 
-Parser.prototype['readShort'] = function() {
+Parser.prototype['readShort'] = 
+Parser.prototype.readShort  = function() {
   return ctype.rsint16(this['buffer'], endian, (this['position'] += 2) - 2);
 };
-Parser.prototype['writeShort'] = function(value) {
+Parser.prototype['writeShort'] = 
+Parser.prototype.writeShort  = function(value) {
   ctype.wsint16(value, endian, this['buffer'], (this['position'] += 2) - 2);
 };
 
-Parser.prototype['readInt'] = function() {
+Parser.prototype['readInt'] = 
+Parser.prototype.readInt  = function() {
   return ctype.rsint32(this['buffer'], endian, (this['position'] += 4) - 4);
 };
-Parser.prototype['writeInt'] = function(value) {
+Parser.prototype['writeInt'] = 
+Parser.prototype.writeInt  = function(value) {
   ctype.wsint32(value, endian, this['buffer'], (this['position'] += 4) - 4);
 };
 
-Parser.prototype['readDouble'] = function() {
+Parser.prototype['readDouble'] = 
+Parser.prototype.readDouble  = function() {
   return ctype.rdouble(this['buffer'], endian, (this['position'] += 8) - 8);
 };
-Parser.prototype['writeDouble'] = function(value) {
+Parser.prototype['writeDouble'] = 
+Parser.prototype.writeDouble  = function(value) {
   ctype.wdouble(value, endian, this['buffer'], (this['position'] += 8) - 8);
 };
 
-Parser.prototype['readLongBytes'] = function() {
+Parser.prototype['readLongBytes'] = 
+Parser.prototype.readLongBytes  = function() {
   var bytes = [], numBytes = 8;
   for(var i = 0; i < numBytes; i++) {
     bytes.push(ctype.ruint8(this['buffer'], endian, this['position'] + i));
@@ -2731,10 +2762,12 @@ Parser.prototype['readLongBytes'] = function() {
   return (new BigInteger(bytes));
 };
 
-Parser.prototype['readLong'] = function() {
+Parser.prototype['readLong'] = 
+Parser.prototype.readLong  = function() {
   return this['readLongBytes']()[0];
 };
-Parser.prototype['writeLong'] = function(value) {
+Parser.prototype['writeLong'] = 
+Parser.prototype.writeLong  = function(value) {
   var bytes, numBytes = 8;
   if( typeof value === 'number')
     value = new BigInteger(value.toString());
@@ -2750,11 +2783,13 @@ ifdef(`DEBUG',
   this['position'] += numBytes;
 };
 
-Parser.prototype['readString'] = function() {
+Parser.prototype['readString'] = 
+Parser.prototype.readString  = function() {
   var length = this['readInt']();
   return this['buffer'].toString('utf8', this['position'], this['position'] += length);
 };
-Parser.prototype['writeString'] = function(value) {
+Parser.prototype['writeString'] = 
+Parser.prototype.writeString  = function(value) {
   var strBuf = new Buffer(value, 'utf8');
   var length = strBuf.length;
   this['writeInt'](length);
@@ -2765,14 +2800,16 @@ Parser.prototype['writeString'] = function(value) {
   this['position'] += length;
 };
 
-Parser.prototype['readDate'] = function(value) {
+Parser.prototype['readDate'] = 
+Parser.prototype.readDate  = function(value) {
   var bigInt, i = 0, numBytes = 8;
   bigInt = this['readLongBytes']();
   var intStr = bigInt.divide(thousand).toString();
   return new Date(parseInt(intStr));
 };
 
-Parser.prototype['writeDate'] = function(value) {
+Parser.prototype['writeDate'] = 
+Parser.prototype.writeDate  = function(value) {
   var bigInt, i = 0, numBytes = 8;
   if( value instanceof Date)
     value = Date.getTime();
@@ -2783,7 +2820,8 @@ Parser.prototype['writeDate'] = function(value) {
   this['writeLong'](bigInt.multiply(thousand));
 };
 
-Parser.prototype['readDecimal'] = function() {
+Parser.prototype['readDecimal'] = 
+Parser.prototype.readDecimal  = function() {
   var bytes = [], bigInt, numBytes = 16, decimalPlaces = 12;
   for(var i = 0; i < numBytes; i++)
   bytes.push(ctype.ruint8(this['buffer'], endian, this['position'] + i));
@@ -2806,7 +2844,8 @@ Parser.prototype['readDecimal'] = function() {
   }
   return val;
 };
-Parser.prototype['writeDecimal'] = function(value) {
+Parser.prototype['writeDecimal'] = 
+Parser.prototype.writeDecimal  = function(value) {
   var bytes, bigInt, numBytes = 16, decimalPlaces = 12;
   if(value == null)
     value = '-170141183460469231731687303715884105728';
@@ -2832,7 +2871,8 @@ ifdef(`DEBUG',
   this['position'] += numBytes;
 };
 
-Parser.prototype['readVarbinary'] = function() {
+Parser.prototype['readVarbinary'] = 
+Parser.prototype.readVarbinary  = function() {
   var length = this['readInt']();
   var binary = this['buffer'].slice(this['position'], this['position'] + length);
   this['position'] += length;
@@ -2842,21 +2882,25 @@ Parser.prototype['readVarbinary'] = function() {
   // BUG: remove
 }
 
-Parser.prototype['writeVarbinary'] = function(value) {
+Parser.prototype['writeVarbinary'] = 
+Parser.prototype.writeVarbinary  = function(value) {
   this['writeInt'](value.length);
   value.copy(this['buffer'], this['position']);
   this['position'] += value.length;
 }
 
-Parser.prototype['readNull'] = function() {
+Parser.prototype['readNull'] = 
+Parser.prototype.readNull  = function() {
   // a no-op, no reading
   return null;
 };
-Parser.prototype['writeNull'] = function(value) {
+Parser.prototype['writeNull'] = 
+Parser.prototype.writeNull  = function(value) {
   // a no-op, no writing
 };
 
-Parser.prototype['readArray'] = function(type, value) {
+Parser.prototype['readArray'] = 
+Parser.prototype.readArray  = function(type, value) {
   type = TYPES_STRINGS[this['readByte']()];
 ifdef(`DEBUG',
   if(type == undefined)
@@ -2872,7 +2916,8 @@ ifdef(`DEBUG',
   return value;
 };
 
-Parser.prototype['writeArray'] = function(type, value) {
+Parser.prototype['writeArray'] = 
+Parser.prototype.writeArray  = function(type, value) {
 ifdef(`DEBUG',
   if(type.slice(0, 5) != 'array' && !TYPES_NUMBERS.hasOwnProperty(type))
     throw new Error('Type must be one of: array, null tinyint, smallint,' + ' integer, bigint, float, string, timestamp, decimal');
@@ -2910,7 +2955,8 @@ ifdef(`DEBUG',
   }
 };
 
-Parser.prototype['readVoltTable'] = function() {
+Parser.prototype['readVoltTable'] = 
+Parser.prototype.readVoltTable  = function() {
   // header
   var tableLength = this['readInt']();
   var metaLength = this['readInt']();
@@ -2948,7 +2994,8 @@ Parser.prototype['readVoltTable'] = function() {
   return rows;
 };
 
-Parser.prototype['readException'] = function(length) {
+Parser.prototype['readException'] = 
+Parser.prototype.readException  = function(length) {
 ifdef(`DEBUG',
   if(length == 0)
     new Error('An exception has occurred');
@@ -2965,7 +3012,8 @@ ifdef(`DEBUG',
   return new Error('An exception has occurred');
 };
 
-Parser.prototype['writeParameterSet'] = function(types, values) {
+Parser.prototype['writeParameterSet'] = 
+Parser.prototype.writeParameterSet  = function(types, values) {
 ifdef(`DEBUG',
   if(types.length != values.length)
     throw new Error('The number of parameters do not match the number of ' + 'types defined in the definition.');
@@ -3162,6 +3210,9 @@ exports['Parser'] = Parser;
 
 var util = require('util');
 
+/**
+ * @constructor 
+ */
 function Message(buffer) {
   this['type'] = MESSAGE_TYPE.UNDEFINED;
   this['error'] = false;
@@ -3176,12 +3227,14 @@ function Message(buffer) {
 
 Message.prototype = Object.create(Parser.prototype);
 
-Message.prototype['readHeader'] = function() {
+Message.prototype['readHeader'] = 
+Message.prototype.readHeader  = function() {
   this['length'] = this['readInt']();
   this['protocol'] = this['readByte']();
 };
 
-Message.prototype['writeHeader'] = function() {
+Message.prototype['writeHeader'] = 
+Message.prototype.writeHeader  = function() {
   var pos = this['position'];
   this['position'] = 0;
   this['writeInt'](this['buffer'].length - 4);
@@ -3189,7 +3242,8 @@ Message.prototype['writeHeader'] = function() {
   this['position'] = pos;
 };
 
-Message.prototype['toBuffer'] = function() {
+Message.prototype['toBuffer'] = 
+Message.prototype.toBuffer  = function() {
   this['writeHeader']();
   return new Buffer(this['buffer']);
 };
@@ -3197,6 +3251,10 @@ Message.prototype['toBuffer'] = function() {
 Message['readInt'] = function(buffer, offset) {
   return Parser['readInt'](buffer, offset);
 };
+
+/**
+ * @constructor
+ */
 LoginMessage = function(buffer) {
   Message.call(this, buffer);
   this['type'] = MESSAGE_TYPE.LOGIN;
@@ -3213,9 +3271,9 @@ LoginMessage = function(buffer) {
 }
 
 util['inherits'](LoginMessage, Message);
-
 var lm = LoginMessage.prototype;
-lm['toString'] = function() {
+lm['toString'] = 
+LoginMessage.prototype.toString = function() {
   return {
     length : this['length'],
     protocol : this['protocol'],
@@ -3228,6 +3286,10 @@ lm['toString'] = function() {
     build : this['build']
   };
 }
+
+/**
+ * @constructor
+ */
 QueryMessage = function(buffer) {
   Message.call(this, buffer);
   this['type'] = MESSAGE_TYPE.QUERY;
@@ -3268,7 +3330,8 @@ util['inherits'](QueryMessage, Message);
 
 var qm = QueryMessage.prototype;
 
-qm['toString'] = function() {
+qm['toString'] = 
+QueryMessage.prototype.toString = function() {
   return {
     length : this['length'],
     protocol : this['protocol'],
