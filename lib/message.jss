@@ -2669,7 +2669,6 @@ var util = require('util');
 /**
  * @constructor 
  */
-
 function Message(buffer) {
   this['type'] = MESSAGE_TYPE.UNDEFINED;
   this['error'] = false;
