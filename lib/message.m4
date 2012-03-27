@@ -246,14 +246,26 @@ var BigInteger = require('bignumber')['BigInteger']
  */
 function ruint8(buffer, endian, offset)
 {
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
-
-
-
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
 	
-
+ifdef(`DEBUG',
+  if(offset >= buffer.length)
+    throw (new Error('Trying to read beyond buffer length'));
+)
 
 
 
@@ -267,13 +279,25 @@ function ruint16(buffer, endian, offset)
 {
 	var val = 0;
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 1 >= buffer.length)
+		throw (new Error('Trying to read beyond buffer length'));
+)
 
 	if (endian == 'big') {
 		val = buffer[offset] << 8;
@@ -310,13 +334,25 @@ function ruint32(buffer, endian, offset)
 {
 	var val = 0;
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 3 >= buffer.length)
+		throw (new Error('Trying to read beyond buffer length'));
+)
 
 	if (endian == 'big') {
 		val = buffer[offset+1] << 16;
@@ -353,13 +389,25 @@ function ruint64(buffer, endian, offset)
 {
 	var val = new Array(2);
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 7 >= buffer.length)
+		throw (new Error('Trying to read beyond buffer length'));
+)
 
 	if (endian == 'big') {
 		val[0] = ruint32(buffer, endian, offset);
@@ -432,13 +480,25 @@ function rsint8(buffer, endian, offset)
 {
 	var neg;
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
+ifdef(`DEBUG',
+	if (offset >= buffer.length)
+		throw (new Error('Trying to read beyond buffer length'));
+)
 
 	neg = buffer[offset] & 0x80;
 	
@@ -456,13 +516,25 @@ function rsint16(buffer, endian, offset)
 {
 	var neg, val;
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 1 >= buffer.length)
+		throw (new Error('Trying to read beyond buffer length'));
+)
 
 	val = ruint16(buffer, endian, offset);
 	neg = val & 0x8000;
@@ -486,13 +558,25 @@ function rsint32(buffer, endian, offset)
 
 	var neg, val;
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 3 >= buffer.length)
+		throw (new Error('Trying to read beyond buffer length'));
+)
 
 	val = ruint32(buffer, endian, offset);
 	neg = val & 0x80000000;
@@ -510,13 +594,25 @@ function rsint64(buffer, endian, offset)
 {
 	var neg, val;
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 3 >= buffer.length)
+		throw (new Error('Trying to read beyond buffer length'));
+)
 
 	val = ruint64(buffer, endian, offset);
 	neg = val[0] & 0x80000000;
@@ -592,13 +688,25 @@ function rfloat(buffer, endian, offset)
 	var bias = 127;
 	var maxexp = 0xff;
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 3 >= buffer.length)
+		throw (new Error('Trying to read beyond buffer length'));
+)
 
 	/* Normalize the bytes to be in endian order */
 	if (endian == 'big') {
@@ -691,13 +799,25 @@ function rdouble(buffer, endian, offset)
 	var bias = 1023;
 	var maxexp = 0x7ff;
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 7 >= buffer.length)
+		throw (new Error('Trying to read beyond buffer length'));
+)
 
 	/* Normalize the bytes to be in endian order */
 	if (endian == 'big') {
@@ -816,13 +936,27 @@ function rdouble(buffer, endian, offset)
  */
 function prepuint(value, max)
 {
+ifdef(`DEBUG',
+	if (typeof (value) != 'number')
+		throw (new (Error('cannot write a non-number as a number')));
+)
 
+ifdef(`DEBUG',
+	if (value < 0)
+		throw (new Error('specified a negative value for writing an ' +
+		    'unsigned value'));
+)
 
+ifdef(`DEBUG',
+	if (value > max)
+		throw (new Error('value is larger than maximum value for ' +
+		    'type'));
+)
 
-
-
-
-
+ifdef(`DEBUG',
+	if (Math.floor(value) !== value)
+		throw (new Error('value has a fractional component'));
+)
 
 	return (value);
 }
@@ -834,15 +968,30 @@ function wuint8(value, endian, buffer, offset)
 {
 	var val;
 
+ifdef(`DEBUG',
+	if (value === undefined)
+		throw (new Error('missing value'));
+)
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
-
+ifdef(`DEBUG',
+	if (offset >= buffer.length && buffer instanceof Buffer)
+		throw (new Error('Trying to write beyond buffer length'));
+)
 
 	val = prepuint(value, 0xff);
 	buffer[offset] = val;
@@ -856,15 +1005,30 @@ function wuint16(value, endian, buffer, offset)
 {
 	var val;
 
+ifdef(`DEBUG',
+	if (value === undefined)
+		throw (new Error('missing value'));
+)
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 1 >= buffer.length && buffer instanceof Buffer)
+		throw (new Error('Trying to write beyond buffer length'));
+)
 
 	val = prepuint(value, 0xffff);
 	if (endian == 'big') {
@@ -891,15 +1055,30 @@ function wuint32(value, endian, buffer, offset)
 {
 	var val;
 
+ifdef(`DEBUG',
+	if (value === undefined)
+		throw (new Error('missing value'));
+)
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 3 >= buffer.length && buffer instanceof Buffer)
+		throw (new Error('Trying to write beyond buffer length'));
+)
 
 	val = prepuint(value, 0xffffffff);
 	if (endian == 'big') {
@@ -923,19 +1102,40 @@ function wuint32(value, endian, buffer, offset)
  */
 function wuint64(value, endian, buffer, offset)
 {
+ifdef(`DEBUG',
+	if (value === undefined)
+		throw (new Error('missing value'));
+)
 
+ifdef(`DEBUG',
+	if (!(value instanceof Array))
+		throw (new Error('value must be an array'));
+)
 
+ifdef(`DEBUG',
+	if (value.length != 2)
+		throw (new Error('value must be an array of length 2'));
+)
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 7 >= buffer.length && buffer instanceof Buffer)
+		throw (new Error('Trying to write beyond buffer length'));
+)
 
 	prepuint(value[0], 0xffffffff);
 	prepuint(value[1], 0xffffffff);
@@ -999,13 +1199,25 @@ function wuint64(value, endian, buffer, offset)
  */
 function prepsint(value, max, min)
 {
+ifdef(`DEBUG',
+	if (typeof (value) != 'number')
+		throw (new (Error('cannot write a non-number as a number')));
+)
 
+ifdef(`DEBUG',
+	if (value > max)
+		throw (new Error('value larger than maximum allowed value'));
+)
 
+ifdef(`DEBUG',
+	if (value < min)
+		throw (new Error('value smaller than minimum allowed value'));
+)
 
-
-
-
-
+ifdef(`DEBUG',
+	if (Math.floor(value) !== value)
+		throw (new Error('value has a fractional component'));
+)
 
 	return (value);
 }
@@ -1017,15 +1229,30 @@ function wsint8(value, endian, buffer, offset)
 {
 	var val;
 
+ifdef(`DEBUG',
+	if (value === undefined)
+		throw (new Error('missing value'));
+)
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
-
+ifdef(`DEBUG',
+	if (offset >= buffer.length && buffer instanceof Buffer)
+		throw (new Error('Trying to write beyond buffer length'));
+)
 
 	val = prepsint(value, 0x7f, -0xf0);
 	if (val >= 0)
@@ -1041,15 +1268,30 @@ function wsint16(value, endian, buffer, offset)
 {
 	var val;
 
+ifdef(`DEBUG',
+	if (value === undefined)
+		throw (new Error('missing value'));
+)
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 1 >= buffer.length && buffer instanceof Buffer)
+		throw (new Error('Trying to write beyond buffer length'));
+)
 
 	val = prepsint(value, 0x7fff, -0xf000);
 	if (val >= 0)
@@ -1067,15 +1309,30 @@ function wsint32(value, endian, buffer, offset)
 {
 	var val;
 
+ifdef(`DEBUG',
+	if (value === undefined)
+		throw (new Error('missing value'));
+)
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 3 >= buffer.length && buffer instanceof Buffer)
+		throw (new Error('Trying to write beyond buffer length'));
+)
 
 	val = prepsint(value, 0x7fffffff, -0xf0000000);
 	if (val >= 0)
@@ -1093,19 +1350,40 @@ function wsint64(value, endian, buffer, offset)
 {
 	var vals = new Array(2);
 
+ifdef(`DEBUG',
+	if (value === undefined)
+		throw (new Error('missing value'));
+)
 
+ifdef(`DEBUG',
+	if (!(value instanceof Array))
+		throw (new Error('value must be an array'));
+)
 
+ifdef(`DEBUG',
+	if (value.length != 2)
+		throw (new Error('value must be an array of length 2'));
+)
 
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
 
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
 
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
-
-
-
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 7 >= buffer.length && buffer instanceof Buffer)
+		throw (new Error('Trying to write beyond buffer length'));
+)
 
 	prepsint(value[0], 0x7fffffff, -0xf0000000);
 	prepsint(value[1], 0xffffffff, -0xffffffff);
@@ -1231,16 +1509,31 @@ function wfloat(value, endian, buffer, offset)
 	var sign, exponent, mantissa, ebits;
 	var bytes = [];
 
+ifdef(`DEBUG',
+	if (value === undefined)
+		throw (new Error('missing value'));
+)
+
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
+
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
+
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
 
-
-
-
-
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 3 >= buffer.length && buffer instanceof Buffer)
+		throw (new Error('Trying to write beyond buffer length'));
+)
 
 	if (isNaN(value)) {
 		sign = 0;
@@ -1365,16 +1658,31 @@ function wdouble(value, endian, buffer, offset)
 	var sign, exponent, mantissa, ebits;
 	var bytes = [];
 
+ifdef(`DEBUG',
+	if (value === undefined)
+		throw (new Error('missing value'));
+)
+
+ifdef(`DEBUG',
+	if (endian === undefined)
+		throw (new Error('missing endian'));
+)
+
+ifdef(`DEBUG',
+	if (buffer === undefined)
+		throw (new Error('missing buffer'));
+)
+
+ifdef(`DEBUG',
+	if (offset === undefined)
+		throw (new Error('missing offset'));
+)
 
 
-
-
-
-
-
-
-
-
+ifdef(`DEBUG',
+	if (offset + 7 >= buffer.length && buffer instanceof Buffer)
+		throw (new Error('Trying to write beyond buffer length'));
+)
 
 	if (isNaN(value)) {
 		sign = 0;
@@ -1694,7 +2002,10 @@ function ctWriteDouble(value, endian, buffer, offset) {
  * Writes a single character into a node buffer
  */
 function ctWriteChar(value, endian, buffer, offset) {
-
+ifdef(`DEBUG',
+  if(!( value instanceof Buffer))
+    throw (new Error('Input must be a buffer'));
+)
 
   mod_ctio.ruint8(value[0], endian, buffer, offset);
   return (1);
@@ -1707,9 +2018,15 @@ function ctWriteChar(value, endian, buffer, offset) {
 function ctWriteCharArray(value, length, endian, buffer, offset) {
   var ii;
 
+ifdef(`DEBUG',
+  if(!( value instanceof Buffer))
+    throw (new Error('Input must be a buffer'));
+)
 
-
-
+ifdef(`DEBUG',
+  if(value.length > length)
+    throw (new Error('value length greater than array length'));
+)
 
   for( ii = 0; ii < value.length && ii < length; ii++)
   mod_ctio.wuint8(value[ii], endian, buffer, offset + ii);
@@ -1744,19 +2061,31 @@ function ctGetBasicTypes() {
 function ctParseType(str) {
   var begInd, endInd;
   var type, len;
-
+ifdef(`DEBUG',
+  if( typeof (str) != 'string')
+    throw (new Error('type must be a Javascript string'));
+)
   endInd = str.lastIndexOf(']');
   if(endInd == -1) {
-
+ifdef(`DEBUG',
+    if(str.lastIndexOf('[') != -1)
+      throw (new Error('found invalid type with \'[\' but ' + 'no corresponding \']\''));
+)
 
     return ( {
       type : str
     });
   }
   begInd = str.lastIndexOf('[');
+ifdef(`DEBUG',
+  if(begInd == -1)
+    throw (new Error('found invalid type with \']\' but ' + 'no corresponding \'[\''));
+)
 
-
-
+ifdef(`DEBUG',
+  if(begInd >= endInd)
+    throw (new Error('malformed type, \']\' appears before \'[\''));
+)
   type = str.substring(0, begInd);
   len = str.substring(begInd + 1, endInd);
 
@@ -1780,19 +2109,37 @@ function ctCheckReq(def, types, fields) {
   var req, keys, key, exists;
   var found = {};
 
+ifdef(`DEBUG',
+  if(!( def instanceof Array))
+    throw (new Error('definition is not an array'));
+)
 
-
-
+ifdef(`DEBUG',
+  if(def.length === 0)
+    throw (new Error('definition must have at least one element'));
+)
 
   for( ii = 0; ii < def.length; ii++) {
     req = def[ii];
-
+ifdef(`DEBUG',
+    if(!( req instanceof Object))
+      throw (new Error('definition must be an array of' + 'objects'));
+)
     keys = Object.keys(req);
+ifdef(`DEBUG',
+    if(keys.length != 1)
+      throw (new Error('definition entry must only have ' + 'one key'));
+)
 
+ifdef(`DEBUG',
+    if(keys[0] in found)
+      throw (new Error('Specified name already ' + 'specified: ' + keys[0]));
+)
 
-
-
-
+ifdef(`DEBUG',
+    if(!('type' in req[keys[0]]))
+      throw (new Error('missing required type definition'));
+)
     key = ctParseType(req[keys[0]]['type']);
 
     /*
@@ -1804,19 +2151,28 @@ function ctCheckReq(def, types, fields) {
     while(key['len'] !== undefined) {
       if(isNaN(parseInt(key['len'], 10))) {
         exists = false;
-
+ifdef(`DEBUG',
+        if(!(key['len'] in found))
+          throw (new Error('Given an array ' + 'length without a matching type'));
+)
 
       }
       key = ctParseType(key['type']);
     }
 
     /* Now we can validate if the type is valid */
-
+ifdef(`DEBUG',
+    if(!(key['type'] in types))
+      throw (new Error('type not found or typdefed: ' + key['type']));
+)
 
     /* Check for any required fields */
     if(fields !== undefined) {
       for( jj = 0; jj < fields.length; jj++) {
-
+ifdef(`DEBUG',
+        if(!(fields[jj] in req[keys[0]]))
+          throw (new Error('Missing required ' + 'field: ' + fields[jj]));
+)
       }
     }
 
@@ -1833,11 +2189,20 @@ function ctCheckReq(def, types, fields) {
  *
  */
 function CTypeParser(conf) {
+ifdef(`DEBUG',
+  if(!conf)
+    throw (new Error('missing required argument'));
+)
 
+ifdef(`DEBUG',
+  if(!('endian' in conf))
+    throw (new Error('missing required endian value'));
+)
 
-
-
-
+ifdef(`DEBUG',
+  if(conf['endian'] != 'big' && conf['endian'] != 'little')
+    throw (new Error('Invalid endian type'));
+)
 
   this['endian'] = conf['endian'];
   this['types'] = ctGetBasicTypes();
@@ -1852,7 +2217,10 @@ function CTypeParser(conf) {
  *
  */
 CTypeParser.prototype['setEndian'] = function(endian) {
-
+ifdef(`DEBUG',
+  if(endian != 'big' || endian != 'little')
+    throw (new Error('invalid endian type, must be big or ' + ' little'));
+)
 
   this['endian'] = endian;
 };
@@ -1874,23 +2242,46 @@ CTypeParser.prototype['getEndian'] = function() {
 CTypeParser.prototype['typedef'] = function(name, value) {
   var type;
 
+ifdef(`DEBUG',
+  if(name === undefined)
+    throw (new (Error('missing required typedef argument: name')));
+)
 
+ifdef(`DEBUG',
+  if(value === undefined)
+    throw (new (Error('missing required typedef argument: value')));
+)
 
-
-
-
+ifdef(`DEBUG',
+  if( typeof (name) != 'string')
+    throw (new (Error('the name of a type must be a string')));
+)
   type = ctParseType(name);
 
+ifdef(`DEBUG',
+  if(type['len'] !== undefined)
+    throw (new Error('Cannot have an array in the typedef name'));
+)
 
+ifdef(`DEBUG',
+  if( name in this['types'])
+    throw (new Error('typedef name already present: ' + name));
+)
 
-
-
-
+ifdef(`DEBUG',
+  if( typeof (value) != 'string' && !( value instanceof Array))
+    throw (new Error('typedef value must either be a string or ' + 'struct'));
+)
 
   if( typeof (value) == 'string') {
     type = ctParseType(value);
     if(type['len'] !== undefined) {
-
+ifdef(`DEBUG',
+      if(isNaN(parseInt(type['len'], 10)))
+        throw (new (Error('typedef value must use ' +
+        'fixed size array when outside of a ' +
+        'struct')));
+)
     }
 
 
@@ -1932,7 +2323,10 @@ function ctResolveArray(str, values) {
 
   while(type['len'] !== undefined) {
     if(isNaN(parseInt(type['len'], 10))) {
-
+ifdef(`DEBUG',
+      if( typeof (values[type['len']]) != 'number')
+        throw (new Error('cannot sawp in non-number ' + 'for array value'));
+)
       ret = '[' + values[type['len']] + ']' + ret;
     } else {
       ret = '[' + type['len'] + ']' + ret;
@@ -1994,7 +2388,10 @@ CTypeParser.prototype['readEntry'] = function(type, buffer, offset) {
    */
   if(type['len'] !== undefined) {
     len = parseInt(type['len'], 10);
-
+ifdef(`DEBUG',
+    if(isNaN(len))
+      throw (new Error('somehow got a non-numeric length'));
+)
 
     if(type['type'] == 'char')
       parse = deftypes['char[]']['read'](len, this['endian'], buffer, offset);
@@ -2072,11 +2469,20 @@ CTypeParser.prototype['readStruct'] = function(def, buffer, offset) {
  */
 CTypeParser.prototype['readData'] = function(def, buffer, offset) {
   /* Sanity check for arguments */
+ifdef(`DEBUG',
+  if(def === undefined)
+    throw (new Error('missing definition for what we should be' + 'parsing'));
+)
 
+ifdef(`DEBUG',
+  if(buffer === undefined)
+    throw (new Error('missing buffer for what we should be' + 'parsing'));
+)
 
-
-
-
+ifdef(`DEBUG',
+  if(offset === undefined)
+    throw (new Error('missing offset for what we should be' + 'parsing'));
+)
 
   /* Sanity check the object definition */
   ctCheckReq(def, this['types']);
@@ -2089,9 +2495,15 @@ CTypeParser.prototype['readData'] = function(def, buffer, offset) {
 CTypeParser.prototype['writeArray'] = function(value, type, length, buffer, offset) {
   var ii, pt;
   var baseOffset = offset;
+ifdef(`DEBUG',
+  if(!( value instanceof Array))
+    throw (new Error('asked to write an array, but value is not ' + 'an array'));
+)
 
-
-
+ifdef(`DEBUG',
+  if(value.length != length)
+    throw (new Error('asked to write array of length ' + length + ' but that does not match value length: ' + value.length));
+)
   pt = ctParseType(type);
   for( ii = 0; ii < length; ii++)
   offset += this['writeEntry'](value[ii], pt, buffer, offset);
@@ -2106,7 +2518,10 @@ CTypeParser.prototype['writeEntry'] = function(value, type, buffer, offset) {
 
   if(type['len'] !== undefined) {
     len = parseInt(type['len'], 10);
-
+ifdef(`DEBUG',
+    if(isNaN(len))
+      throw (new Error('somehow got a non-numeric length'));
+)
 
     if(type['type'] == 'char')
       ret = deftypes['char[]']['write'](value, len, this['endian'], buffer, offset);
@@ -2154,11 +2569,20 @@ CTypeParser.prototype['writeStruct'] = function(def, buffer, offset) {
  *	offset		The offset in the buffer to write to
  */
 CTypeParser.prototype['write'] = function(def, buffer, offset) {
+ifdef(`DEBUG',
+  if(def === undefined)
+    throw (new Error('missing definition for what we should be' + 'parsing'));
+)
 
+ifdef(`DEBUG',
+  if(buffer === undefined)
+    throw (new Error('missing buffer for what we should be' + 'parsing'));
+)
 
-
-
-
+ifdef(`DEBUG',
+  if(offset === undefined)
+    throw (new Error('missing offset for what we should be' + 'parsing'));
+)
 
   ctCheckReq(def, this['types'], ['value']);
 
@@ -2181,14 +2605,26 @@ CTypeParser.prototype['write'] = function(def, buffer, offset) {
  *	val		An array of two 32-bit integers
  */
 function toAbs64(val) {
+ifdef(`DEBUG',
+  if(val === undefined)
+    throw (new Error('missing required arg: value'));
+)
 
+ifdef(`DEBUG',
+  if(!( val instanceof Array))
+    throw (new Error('value must be an array'));
+)
 
-
-
-
+ifdef(`DEBUG',
+  if(val.length != 2)
+    throw (new Error('value must be an array of length 2'));
+)
 
   /* We have 20 bits worth of precision in this range */
-
+ifdef(`DEBUG',
+  if(val[0] >= 0x100000)
+    throw (new Error('value would become approximated'));
+)
 
   return (val[0] * Math.pow(2, 32) + val[1]);
 }
@@ -2202,11 +2638,20 @@ function toAbs64(val) {
  *	val		An array of two 32-bit integers
  */
 function toApprox64(val) {
+ifdef(`DEBUG',
+  if(val === undefined)
+    throw (new Error('missing required arg: value'));
+)
 
+ifdef(`DEBUG',
+  if(!( val instanceof Array))
+    throw (new Error('value must be an array'));
+)
 
-
-
-
+ifdef(`DEBUG',
+  if(val.length != 2)
+    throw (new Error('value must be an array of length 2'));
+)
 
   return (Math.pow(2, 32) * val[0] + val[1]);
 }
@@ -2303,7 +2748,10 @@ Parser.prototype['writeLong'] = function(value) {
   var bytes, numBytes = 8;
   if( typeof value === 'number')
     value = new BigInteger(value.toString());
-
+ifdef(`DEBUG',
+  if(!( value instanceof BigInteger))
+    throw new Error('Long type must be a BigInteger or Number');
+)
   bytes = value.toByteArray();
   bytes = zeros(numBytes - bytes.length).concat(bytes);
 
@@ -2374,7 +2822,10 @@ Parser.prototype['writeDecimal'] = function(value) {
     value = '-170141183460469231731687303715884105728';
   if( typeof value === 'number')
     value = value.toString();
-
+ifdef(`DEBUG',
+  if( typeof value != 'string' || !/^-?\d*\.?\d*$/.test(value))
+    throw new Error('Decimal type must be a numerical string or Number:' + value);
+)
 
   // add decimal and missing zeros
   var parts = value.split('.');
@@ -2417,7 +2868,10 @@ Parser.prototype['writeNull'] = function(value) {
 
 Parser.prototype['readArray'] = function(type, value) {
   type = TYPES_STRINGS[this['readByte']()];
-
+ifdef(`DEBUG',
+  if(type == undefined)
+    throw new Error('Unsupported type, update driver');
+)
 
   var length = (type == 'byte' ? this['readInt']() : this['readShort']());
   var method = TYPES_READ[type];
@@ -2429,9 +2883,15 @@ Parser.prototype['readArray'] = function(type, value) {
 };
 
 Parser.prototype['writeArray'] = function(type, value) {
+ifdef(`DEBUG',
+  if(type.slice(0, 5) != 'array' && !TYPES_NUMBERS.hasOwnProperty(type))
+    throw new Error('Type must be one of: array, null tinyint, smallint,' + ' integer, bigint, float, string, timestamp, decimal');
+)
 
-
-
+ifdef(`DEBUG',
+  if(!( value instanceof Array))
+    throw new Error(('Array value must be an Array'));
+)
 
   var length = value.length, i, match;
 
@@ -2499,7 +2959,10 @@ Parser.prototype['readVoltTable'] = function() {
 };
 
 Parser.prototype['readException'] = function(length) {
-
+ifdef(`DEBUG',
+  if(length == 0)
+    new Error('An exception has occurred');
+)
   var ordinal = this['readByte']();
   // they don't have a spec for exceptions at this time, just skip it.
   var theRest = this['readBinary'](length - 1);
@@ -2513,7 +2976,10 @@ Parser.prototype['readException'] = function(length) {
 };
 
 Parser.prototype['writeParameterSet'] = function(types, values) {
-
+ifdef(`DEBUG',
+  if(types.length != values.length)
+    throw new Error('The number of parameters do not match the number of ' + 'types defined in the definition.');
+)
 
   var length = values.length, match;
   this['writeShort'](length);
@@ -2661,21 +3127,45 @@ function ones(num) {
 }
 
 function checkType(type, value) {
+ifdef(`DEBUG',
+  if(type == 'array')
+    throw new Error('Type array must have a subtype. E.g. array[string]');
+)
 
+ifdef(`DEBUG',
+  if(type.slice(0, 5) != 'array' && !TYPES_NUMBERS.hasOwnProperty(type))
+    throw new Error('Type must be one of: array, null tinyint, smallint, ' + 'integer, bigint, float, string, timestamp, decimal');
+)
 
+ifdef(`DEBUG',
+  if( typeof value === 'numeric' && !NUMERIC_TYPES[type])
+    throw new Error('Providing a numeric type for a non-numeric field. ' + value + ' can not be a ' + type);
+)
 
+ifdef(`DEBUG',
+  if( typeof value === 'string' && !STRING_TYPES[type])
+    throw new Error('Providing a string type for a non-string field. ' + value + ' can not be a ' + type);
+)
 
+ifdef(`DEBUG',
+  if( typeof value === 'object' && !( value instanceof Array))
+    throw new Error('Cannot provide custom objects as procedure parameters');
+)
 
+ifdef(`DEBUG',
+  if( value instanceof Array && type.slice(0, 5) != 'array')
+    throw new Error('Providing an array type for a non-array field. ' + value + ' can not be a ' + type);
+)
 
+ifdef(`DEBUG',
+  if(type.slice(0, 5) == 'array' && !( value instanceof Array))
+    throw new Error('Providing a non-array value for an array field. ' + value + ' can not be a ' + type);
+)
 
-
-
-
-
-
-
-
-
+ifdef(`DEBUG',
+  if( value instanceof BigInteger && !BIGINT_TYPES[type])
+    throw new Error('Providing a BigInteger type for a non-bigint field. ' + value + ' can not be a ' + type);
+)
 }
 
 exports['Parser'] = Parser;

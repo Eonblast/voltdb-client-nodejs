@@ -43,3 +43,10 @@ Known Issues
 ------------
 
 Driver does not currently support varbinary type. 
+
+
+Dev
+---
+    cd lib
+    m4 message.m4 > message.jss
+    java -jar compiler.jar --compilation_level ADVANCED_OPTIMIZATIONS --formatting PRETTY_PRINT  --js message.jss > message.js
