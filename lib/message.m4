@@ -2723,7 +2723,7 @@ ifdef(`DEBUG',
   if(!( value instanceof BigInteger))
     throw new Error('Long type must be a BigInteger or Number');
 )
-  bytes = value.toByteArray();
+  bytes = value['toByteArray']();
   bytes = zeros(numBytes - bytes.length).concat(bytes);
 
   for(var i = 0; i < numBytes; i++)
@@ -2752,7 +2752,7 @@ Parser.prototype['readDate'] =
 Parser.prototype.readDate  = function(value) {
   var bigInt, i = 0, numBytes = 8;
   bigInt = this['readLongBytes']();
-  var intStr = bigInt.divide(thousand).toString();
+  var intStr = bigInt['divide'](thousand).toString();
   return new Date(parseInt(intStr));
 };
 
@@ -2765,7 +2765,7 @@ Parser.prototype.writeDate  = function(value) {
     throw new Error('Date type must be a Date or number');
   bigInt = new BigInteger(value.toString());
 
-  this['writeLong'](bigInt.multiply(thousand));
+  this['writeLong'](bigInt['multiply'](thousand));
 };
 
 Parser.prototype['readDecimal'] = 
@@ -2811,7 +2811,7 @@ ifdef(`DEBUG',
   else
     parts[1] += zeros(12 - parts[1].length).join('');
   bigInt = new BigInteger(parts.join(''));
-  bytes = bigInt.toByteArray();
+  bytes = bigInt['toByteArray']();
   bytes = bytes[0] > 0 ? zeros(numBytes - bytes.length).concat(bytes) : ones(numBytes - bytes.length).concat(bytes);
 
   for(var i = 0; i < numBytes; i++)

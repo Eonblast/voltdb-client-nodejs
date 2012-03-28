@@ -27,33 +27,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-
-/* This file is part of VoltDB.
- * Copyright (C) 2008-2012 VoltDB Inc.
- *
- * This file contains original code and/or modifications of original code.
- * Any modifications made by VoltDB Inc. are licensed under the following
- * terms and conditions:
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- */
+ 
 var BigInteger = require('bignumber')['BigInteger']
 
 /* This file is part of VoltDB.
@@ -144,33 +118,7 @@ var BigInteger = require('bignumber')['BigInteger']
  * value. Value is defined when we're writing out data, otherwise it's ignored.
  *
  */
-
-/* This file is part of VoltDB.
- * Copyright (C) 2008-2012 VoltDB Inc.
- *
- * This file contains original code and/or modifications of original code.
- * Any modifications made by VoltDB Inc. are licensed under the following
- * terms and conditions:
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- */
+ 
 
 /*
  * The following license applies to all files unless the file is specified below.
@@ -2273,7 +2221,7 @@ Parser.prototype.writeLong  = function(value) {
   if( typeof value === 'number')
     value = new BigInteger(value.toString());
 
-  bytes = value.toByteArray();
+  bytes = value['toByteArray']();
   bytes = zeros(numBytes - bytes.length).concat(bytes);
 
   for(var i = 0; i < numBytes; i++)
@@ -2302,7 +2250,7 @@ Parser.prototype['readDate'] =
 Parser.prototype.readDate  = function(value) {
   var bigInt, i = 0, numBytes = 8;
   bigInt = this['readLongBytes']();
-  var intStr = bigInt.divide(thousand).toString();
+  var intStr = bigInt['divide'](thousand).toString();
   return new Date(parseInt(intStr));
 };
 
@@ -2315,7 +2263,7 @@ Parser.prototype.writeDate  = function(value) {
     throw new Error('Date type must be a Date or number');
   bigInt = new BigInteger(value.toString());
 
-  this['writeLong'](bigInt.multiply(thousand));
+  this['writeLong'](bigInt['multiply'](thousand));
 };
 
 Parser.prototype['readDecimal'] = 
@@ -2358,7 +2306,7 @@ Parser.prototype.writeDecimal  = function(value) {
   else
     parts[1] += zeros(12 - parts[1].length).join('');
   bigInt = new BigInteger(parts.join(''));
-  bytes = bigInt.toByteArray();
+  bytes = bigInt['toByteArray']();
   bytes = bytes[0] > 0 ? zeros(numBytes - bytes.length).concat(bytes) : ones(numBytes - bytes.length).concat(bytes);
 
   for(var i = 0; i < numBytes; i++)
